@@ -13,18 +13,9 @@ class MeetingController extends Controller
      */
     public function index()
     {
-        //
+        return 'It works';
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -34,7 +25,7 @@ class MeetingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return 'It works';
     }
 
     /**
@@ -45,18 +36,7 @@ class MeetingController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return 'It works';
     }
 
     /**
@@ -68,7 +48,7 @@ class MeetingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return 'It works';
     }
 
     /**
@@ -79,6 +59,6 @@ class MeetingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return 'It works';
     }
 }
