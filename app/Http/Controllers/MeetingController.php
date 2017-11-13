@@ -13,7 +13,7 @@ class MeetingController extends Controller
      */
     public function index()
     {
-        return 'It works';
+        
     }
 
 
@@ -25,7 +25,7 @@ class MeetingController extends Controller
      */
     public function store(Request $request)
     {
-        return 'It works';
+       
     }
 
     /**
@@ -36,7 +36,7 @@ class MeetingController extends Controller
      */
     public function show($id)
     {
-        return 'It works';
+      
     }
 
     /**
@@ -48,7 +48,7 @@ class MeetingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return 'It works';
+        
     }
 
     /**
@@ -59,6 +59,6 @@ class MeetingController extends Controller
      */
     public function destroy($id)
     {
-        return 'It works';
+        
     }
 }

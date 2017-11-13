@@ -15,7 +15,7 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
-        return 'It works';
+        
     }
 
     /**
@@ -26,6 +26,6 @@ class RegisterController extends Controller
      */
     public function destroy($id)
     {
-        return 'It works';
+        
     }
 }
