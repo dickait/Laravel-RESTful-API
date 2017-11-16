@@ -19,7 +19,6 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => 'v1'], function(){
     Route::resource('meeting', 'MeetingController' , [
         'except' => ['create', 'edit'],
-        'middleware' => 'auth'
     ]);
 
     Route::resource('meeting/registration', 'RegisterController' , [
