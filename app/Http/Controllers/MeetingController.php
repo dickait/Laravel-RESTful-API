@@ -17,7 +17,7 @@ class MeetingController extends Controller
         $meetings = Meeting::all();
         foreach($meetings as $meeting){
             $meeting->view_meeting = [
-                'href' => 'api/v1/meeting' . $meeting->id,
+                'href' => 'api/v1/meeting/' . $meeting->id,
                 'method' => 'GET'
             ];
         }
@@ -88,7 +88,7 @@ class MeetingController extends Controller
     {
         $meeting = Meeting::with('users')->where('id', $id)->firstOrFail();
         $meeting->view_meeting = [
-            'href' => 'api/v1/meeting',
+            'href' => 'api/v1/meeting/',
             'method' => 'GET'
         ];
 
@@ -159,6 +159,28 @@ class MeetingController extends Controller
      */
     public function destroy($id)
     {
-        
+        $meeting = Meeting::findOrFail();
+        $users = $meeting->users;
+        $meeting->users()->detach();
+
+        if(!$meeting->delete()){
+            foreach ($users as $user){
+                $meeting->users()->attach($user);
+            }
+            return response()->json([
+                'msg' => 'Delete is failed',
+            ], 404);
+        }
+
+        $response = [
+            'msg' => 'Meeting deleted',
+            'create' => [
+                'href' => 'api/v1/meeting',
+                'method' => 'POST',
+                'params' => 'title, description, time'
+            ] 
+        ];
+
+        return repsonse()->json($response, 200);
     }
 }
