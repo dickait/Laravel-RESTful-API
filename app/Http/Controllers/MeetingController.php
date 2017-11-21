@@ -86,7 +86,18 @@ class MeetingController extends Controller
      */
     public function show($id)
     {
-      
+        $meeting = Meeting::with(users)->where('id', $id)->firstOrFail();
+        $meeting->view_meeting = [
+            'href' => 'api/v1/meeting',
+            'method' => 'GET'
+        ];
+
+        $response = [
+            'msg' => 'Meeting Information',
+            'meeting' => $meeting
+        ];
+
+        return response()->json($response, 200);
     }
 
     /**
