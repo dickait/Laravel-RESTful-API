@@ -54,7 +54,7 @@ class MeetingController extends Controller
        $meeting = new Meeting([
             'title' => $title,
             'description' => $description,
-            'time' => 'time'
+            'time' => $time
        ]);
 
        if ($meeting->save()){
@@ -86,7 +86,7 @@ class MeetingController extends Controller
      */
     public function show($id)
     {
-        $meeting = Meeting::with(users)->where('id', $id)->firstOrFail();
+        $meeting = Meeting::with('users')->where('id', $id)->firstOrFail();
         $meeting->view_meeting = [
             'href' => 'api/v1/meeting',
             'method' => 'GET'
@@ -109,7 +109,46 @@ class MeetingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $this->validate($request,[
+            'title' => 'required',
+            'description' => 'required',
+            'time' => 'required',
+            'user_id' => 'required'
+        ]);
+
+        $title = $request->input('title');
+        $description = $request->input('description');
+        $time = $request->input('time');
+        $user_id = $request->input('user_id');
+
+        $meeting = Meeting::with('users')->findOrFail($id);
+
+        if (!$meeting->users()->where('users.id', $user_id)->first()){
+            return response()->json([ 'msg' => 'user not registered for meeting, update not successful'], 401);
+        };
+
+        $meeting->title = $title;
+        $meeting->description = $description;
+        $meeting->time = $time;
+
+        if (!$meeting->update()) {
+            return response()->json([
+                'msg' => 'Error during update'
+            ], 404);
+        }
+
+        $meeting->view_meeting = [
+            'href' => 'api/v1/meeting/'. $meeting->id,
+            'method' => 'GET'
+        ];
+
+        $response = [
+            'msg' => 'Update successful',
+            'meeting' => $meeting
+        ];
+
+        return response()->json($response, 200);
+
     }
 
     /**
