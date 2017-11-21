@@ -17,7 +17,8 @@ class MeetingController extends Controller
         $meetings = Meeting::all();
         foreach($meetings as $meeting){
             $meeting->view_meeting = [
-                'href' => 'api/v1/meeting'. $meeting->id
+                'href' => 'api/v1/meeting' . $meeting->id,
+                'method' => 'GET'
             ];
         }
         
@@ -50,23 +51,31 @@ class MeetingController extends Controller
        $time = $request->input('time');
        $user_id = $request->input('user_id');
 
-       $meeting = [
-           'title' => $title,
-           'description' => $description,
-           'time' => $time,
-           'user_id' => $user_id,
-           'view_meeting' => [
-                'href' => 'api/v1/meeting/1',
-                'method' => 'GET'
-           ]
-       ];
+       $meeting = new Meeting([
+            'title' => $title,
+            'description' => $description,
+            'time' => 'time'
+       ]);
+
+       if ($meeting->save()){
+           $meeting->users()->attach($user_id);
+           $meeting->view_meeting = [
+               'href' => 'api/v1/meeting/' . $meeting->id,
+               'method' => 'GET'
+           ];
+           $message = [
+               'msg' => 'Meeting Created',
+               'meeting' => $meeting
+           ];
+
+           return response()->json($message, 201);
+       }
 
        $response = [
-            'msg' => 'Meeting Created',
-            'data' => $meeting
+            'msg' => 'Error during creating'
        ];
 
-       return response()->json($response, 201);
+       return response()->json($response, 404);
     }
 
     /**
