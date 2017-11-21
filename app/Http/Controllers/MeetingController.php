@@ -159,7 +159,7 @@ class MeetingController extends Controller
      */
     public function destroy($id)
     {
-        $meeting = Meeting::findOrFail();
+        $meeting = Meeting::findOrFail($id);
         $users = $meeting->users;
         $meeting->users()->detach();
 
@@ -170,7 +170,7 @@ class MeetingController extends Controller
             return response()->json([
                 'msg' => 'Delete is failed',
             ], 404);
-        }
+        };
 
         $response = [
             'msg' => 'Meeting deleted',
@@ -181,6 +181,6 @@ class MeetingController extends Controller
             ] 
         ];
 
-        return repsonse()->json($response, 200);
+        return response()->json($response, 200);
     }
 }
